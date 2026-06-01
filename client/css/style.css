@@ -54,11 +54,6 @@ p {
     flex-wrap: wrap;
 }
 
-.phone-number {
-    direction: ltr;
-    text-align: right;
-    unicode-bidi: plaintext;
-}
 
 input.phone-number {
     text-align: right;
