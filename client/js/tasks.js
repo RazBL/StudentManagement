@@ -3,6 +3,8 @@ const tasksContainer = document.querySelector("#tasksContainer");
 const openTasksCount = document.querySelector("#openTasksCount");
 const submitButton = taskForm.querySelector("button[type='submit']");
 const taskDueDateInput = document.querySelector("#taskDueDate");
+const statusFilterButtons = document.querySelectorAll(".status-filter-btn");
+const taskControls = document.querySelector(".task-controls");
 
 let tasks = [];
 let editingTaskId = null;
@@ -84,10 +86,32 @@ function createTaskCard(task) {
     `;
 }
 
+function setupTaskControls() {
+    taskControls.appendChild(openTasksCount);
+}
+
+function getVisibleTasks() {
+    const activeStatusButton = document.querySelector(".status-filter-btn.active");
+    const status = activeStatusButton ? activeStatusButton.dataset.status : "all";
+
+    const visibleTasks = tasks.filter(function (task) {
+        const matchesStatus = status === "all" ||
+            (status === "open" && !task.completed) ||
+            (status === "completed" && task.completed);
+
+        return matchesStatus;
+    });
+
+    return visibleTasks.sort(function (a, b) {
+        return a.dueDate.localeCompare(b.dueDate);
+    });
+}
+
 function renderTasks() {
     const openTasks = tasks.filter(function (task) {
         return !task.completed;
     });
+    const visibleTasks = getVisibleTasks();
 
     openTasksCount.textContent = `${openTasks.length} פתוחות`;
 
@@ -96,7 +120,12 @@ function renderTasks() {
         return;
     }
 
-    tasksContainer.innerHTML = tasks.map(createTaskCard).join("");
+    if (visibleTasks.length === 0) {
+        tasksContainer.innerHTML = `<p class="text-muted">&#1488;&#1497;&#1503; &#1502;&#1496;&#1500;&#1493;&#1514; &#1514;&#1493;&#1488;&#1502;&#1493;&#1514;</p>`;
+        return;
+    }
+
+    tasksContainer.innerHTML = visibleTasks.map(createTaskCard).join("");
 }
 
 async function loadTasks() {
@@ -228,5 +257,16 @@ tasksContainer.addEventListener("click", async function (event) {
 });
 
 taskDueDateInput.min = getTodayDateString();
+statusFilterButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        statusFilterButtons.forEach(function (statusButton) {
+            statusButton.classList.remove("active");
+        });
 
+        button.classList.add("active");
+        renderTasks();
+    });
+});
+
+setupTaskControls();
 loadTasks();

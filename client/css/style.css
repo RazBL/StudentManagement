@@ -54,6 +54,44 @@ p {
     flex-wrap: wrap;
 }
 
+.list-controls {
+    display: grid;
+    gap: 0.75rem;
+    text-align: start;
+}
+
+.task-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#openTasksCount {
+    width: fit-content;
+}
+
+.status-filter {
+    display: inline-flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.status-filter-btn {
+    border: 1px solid #adb5bd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #212529;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+}
+
+.status-filter-btn.active {
+    border-color: #212529;
+    background: #212529;
+    color: #ffffff;
+}
 
 input.phone-number {
     text-align: right;
@@ -149,6 +187,10 @@ input.phone-number {
     }
 
     .student-card-actions .btn {
+        flex: 1;
+    }
+
+    .status-filter-btn {
         flex: 1;
     }
 

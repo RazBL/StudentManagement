@@ -6,6 +6,7 @@ const addStudentButton = document.querySelector("#addStudentButton");
 const studentFormTitle = document.querySelector("#studentFormTitle");
 const addStudentCard = document.getElementById("addStudentCard");
 const phoneInput = document.getElementById("studentPhone");
+const studentSearchInput = document.querySelector("#studentSearch");
 const israeliMobilePhonePattern = /^05\d{8}$/;
 const addStudentTitle = "הוספת תלמיד חדש";
 const editStudentTitle = "ערוך תלמיד";
@@ -81,7 +82,23 @@ function createStudentCard(student) {
     `;
 }
 
+function getFilteredStudents() {
+    const search = studentSearchInput.value.trim().toLowerCase();
+
+    if (!search) {
+        return students;
+    }
+
+    return students.filter(function (student) {
+        return student.name.toLowerCase().includes(search) ||
+            student.className.toLowerCase().includes(search) ||
+            student.phone.includes(search);
+    });
+}
+
 function renderStudents() {
+    const visibleStudents = getFilteredStudents();
+
     if (students.length === 0) {
         studentTable.innerHTML = `
             <tr>
@@ -92,8 +109,18 @@ function renderStudents() {
         return;
     }
 
-    studentTable.innerHTML = students.map(createStudentRow).join("");
-    studentCards.innerHTML = students.map(createStudentCard).join("");
+    if (visibleStudents.length === 0) {
+        studentTable.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-muted">&#1488;&#1497;&#1503; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514; &#1500;&#1495;&#1497;&#1508;&#1493;&#1513;</td>
+            </tr>
+        `;
+        studentCards.innerHTML = `<p class="text-muted">&#1488;&#1497;&#1503; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514; &#1500;&#1495;&#1497;&#1508;&#1493;&#1513;</p>`;
+        return;
+    }
+
+    studentTable.innerHTML = visibleStudents.map(createStudentRow).join("");
+    studentCards.innerHTML = visibleStudents.map(createStudentCard).join("");
 }
 
 async function loadStudents() {
@@ -219,5 +246,7 @@ document.addEventListener("click", function (event) {
         deleteStudent(id);
     }
 });
+
+studentSearchInput.addEventListener("input", renderStudents);
 
 loadStudents();
