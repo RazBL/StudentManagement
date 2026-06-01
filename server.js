@@ -33,6 +33,28 @@ function isValidIsraeliMobilePhone(phone) {
     return israeliMobilePhonePattern.test(phone);
 }
 
+function formatDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function getTodayDateString() {
+    return formatDateString(new Date());
+}
+
+function isValidFutureOrTodayDate(date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return false;
+    }
+
+    const parsedDate = new Date(`${date}T00:00:00`);
+
+    return formatDateString(parsedDate) === date && date >= getTodayDateString();
+}
+
 function validateStudentInput(req, res) {
     const student = {
         name: req.body.name,
@@ -239,6 +261,12 @@ app.post("/tasks", function (req, res) {
         });
     }
 
+    if (!isValidFutureOrTodayDate(dueDate)) {
+        return res.status(400).json({
+            message: "Invalid date"
+        });
+    }
+
     const result = db.prepare(`
         INSERT INTO tasks (teacherId, title, className, dueDate, completed)
         VALUES (?, ?, ?, ?, ?)
@@ -277,6 +305,12 @@ app.put("/tasks/:id", function (req, res) {
     const title = req.body.title || task.title;
     const className = req.body.className || task.className;
     const dueDate = req.body.dueDate || task.dueDate;
+
+    if (req.body.dueDate && !isValidFutureOrTodayDate(dueDate)) {
+        return res.status(400).json({
+            message: "Invalid date"
+        });
+    }
 
     let completed = task.completed;
 

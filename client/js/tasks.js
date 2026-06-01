@@ -2,12 +2,35 @@ const taskForm = document.querySelector("#taskForm");
 const tasksContainer = document.querySelector("#tasksContainer");
 const openTasksCount = document.querySelector("#openTasksCount");
 const submitButton = taskForm.querySelector("button[type='submit']");
+const taskDueDateInput = document.querySelector("#taskDueDate");
 
 let tasks = [];
 let editingTaskId = null;
 
 function formatDate(date) {
     return new Date(date).toLocaleDateString("he-IL");
+}
+
+function formatDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function getTodayDateString() {
+    return formatDateString(new Date());
+}
+
+function isValidFutureOrTodayDate(date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        return false;
+    }
+
+    const parsedDate = new Date(`${date}T00:00:00`);
+
+    return formatDateString(parsedDate) === date && date >= getTodayDateString();
 }
 
 function formatClassName(className) {
@@ -98,6 +121,12 @@ taskForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const task = getTaskFormData();
+
+    if (!isValidFutureOrTodayDate(task.dueDate)) {
+        alert("Invalid date");
+        return;
+    }
+
     const url = editingTaskId ? `/tasks/${editingTaskId}` : "/tasks";
     const method = editingTaskId ? "PUT" : "POST";
 
@@ -197,5 +226,7 @@ tasksContainer.addEventListener("click", async function (event) {
         }
     }
 });
+
+taskDueDateInput.min = getTodayDateString();
 
 loadTasks();
