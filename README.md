@@ -1,4 +1,4 @@
-# Student Management App
+# Student Management
 
 To run/view this application open this link:
 
