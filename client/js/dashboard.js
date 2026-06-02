@@ -62,7 +62,7 @@ function renderTasksTable(tasks) {
         const status = getTaskStatus(task);
 
         return `
-            <tr>
+            <tr class="task-row" data-id="${task.id}" data-completed="${task.completed}">
                 <td class="${status.textClass}">${task.title}</td>
                 <td class="${status.textClass}">${formatClassName(task.className)}</td>
                 <td class="${status.textClass}">${formatDate(task.dueDate)}</td>
@@ -85,7 +85,7 @@ function renderTasksCards(tasks) {
         const status = getTaskStatus(task);
 
         return `
-            <div class="task-card-top d-flex justify-content-between align-items-start gap-3">
+            <div class="task-card-top d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3" data-id="${task.id}" data-completed="${task.completed}">
                 <div class="form-check">
                     <input class="form-check-input task-checkbox" type="checkbox" id="task-${task.id}" data-id="${task.id}" ${status.checked}>
                     <label class="form-check-label ${status.textClass}" for="task-${task.id}">
@@ -93,7 +93,7 @@ function renderTasksCards(tasks) {
                         <p class="text-muted mb-0">${formatClassName(task.className)} - ${formatDate(task.dueDate)}</p>
                     </label>
                 </div>
-                <span class="badge rounded-pill ${status.badgeClass}">${status.badgeText}</span>
+                <span class="badge rounded-pill align-self-start align-self-sm-auto ${status.badgeClass}">${status.badgeText}</span>
             </div>
         `;
     }).join("");
@@ -165,6 +165,17 @@ document.addEventListener("change", function (event) {
     }
 
     updateTaskStatus(event.target.dataset.id, event.target.checked);
+});
+
+document.addEventListener("click", function (event) {
+    const taskElement = event.target.closest(".task-row, .task-card-top");
+
+    if (!taskElement || event.target.closest(".task-checkbox, .form-check-label")) {
+        return;
+    }
+
+    const completed = taskElement.dataset.completed === "true";
+    updateTaskStatus(taskElement.dataset.id, !completed);
 });
 
 loadDashboard();

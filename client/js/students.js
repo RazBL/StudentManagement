@@ -71,10 +71,10 @@ function createStudentCard(student) {
         <div class="student-mobile-card bg-white border rounded p-3 text-start" data-id="${student.id}">
             <h6 class="mb-2">${student.name}</h6>
 
-            <p class="student-class mb-1">כיתה: ${student.className}</p>
+            <p class="text-dark fw-semibold mb-1">כיתה: ${student.className}</p>
             <p class="text-muted mb-1">טלפון: <span class="phone-number">${student.phone}</span></p>
 
-            <div class="student-card-actions d-flex gap-2">
+            <div class="student-card-actions d-flex gap-2 flex-wrap">
                 <button type="button" class="btn btn-sm btn-warning edit-student">עריכה</button>
                 <button type="button" class="btn btn-sm btn-danger delete-student">מחיקה</button>
             </div>

@@ -1,100 +1,13 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    direction: rtl;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-    margin: 0;
-}
-
-.app-bg {
-    background-color: rgb(220, 220, 220);
-}
-
-.app-shell {
-    position: relative;
-}
-
 .desktop-sidebar {
     display: none;
-}
-
-.app-content {
-    min-width: 0;
 }
 
 .auth-card {
     width: min(100%, 420px);
 }
 
-.card {
-    border-radius: 8px;
-}
-
 .table {
     min-width: 620px;
-}
-
-.student-class {
-    color: #212529;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.student-card-actions {
-    flex-wrap: wrap;
-}
-
-.list-controls {
-    display: grid;
-    gap: 0.75rem;
-    text-align: start;
-}
-
-.task-controls {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-#openTasksCount {
-    width: fit-content;
-}
-
-.status-filter {
-    display: inline-flex;
-    gap: 0.5rem;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
-.status-filter-btn {
-    border: 1px solid #adb5bd;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #212529;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-}
-
-.status-filter-btn.active {
-    border-color: #212529;
-    background: #212529;
-    color: #ffffff;
-}
-
-input.phone-number {
-    text-align: right;
 }
 
 .task-card-top {
@@ -102,6 +15,11 @@ input.phone-number {
 }
 
 .task-card {
+    cursor: pointer;
+}
+
+.task-row,
+.dashboard-tasks-list .task-card-top {
     cursor: pointer;
 }
 
@@ -116,17 +34,8 @@ input.phone-number {
     overflow-wrap: anywhere;
 }
 
-.task-actions {
-    flex-wrap: wrap;
-}
-
 .form-check-label {
     cursor: pointer;
-}
-
-.home{
-    text-decoration: none;
-    color: black;
 }
 
 @media (min-width: 992px) {
@@ -172,14 +81,6 @@ input.phone-number {
 
     .navbar .d-flex {
         flex-shrink: 0;
-    }
-
-    .task-card-top {
-        flex-direction: column;
-    }
-
-    .task-card-top .badge {
-        align-self: flex-start;
     }
 
     .task-actions {

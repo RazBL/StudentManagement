@@ -68,16 +68,16 @@ function createTaskCard(task) {
         <div class="task-card border rounded p-3 bg-white" data-id="${task.id}">
         <input class="form-check-input task-checkbox" type="checkbox" id="task-${task.id}" ${checked}>
             <label class="form-check-label ${textClass}" for="task-${task.id}">
-                <div class="task-card-top d-flex justify-content-between align-items-start gap-3">
+                <div class="task-card-top d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3">
                     <div class="form-check">
                         <h6 class="mb-1">${task.title}</h6>
                         <p class="text-muted mb-0">${formatClassName(task.className)} - ${formatDate(task.dueDate)}</p>
                     </div>
-                        <span class="badge rounded-pill ${badgeClass}">${badgeText}</span>
+                    <span class="badge rounded-pill align-self-start align-self-sm-auto ${badgeClass}">${badgeText}</span>
                 </div>
             </label>
 
-            <div class="task-actions d-flex gap-2 justify-content-end mt-3">
+            <div class="task-actions d-flex gap-2 justify-content-end flex-wrap mt-3">
                 <button type="button" class="btn btn-sm btn-warning edit-task">עריכה</button>
                 <button type="button" class="btn btn-sm btn-danger delete-task">מחיקה</button>
             </div>
