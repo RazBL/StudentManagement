@@ -4,6 +4,13 @@ const openTasksCount = document.querySelector("#openTasksCount");
 const submitButton = taskForm.querySelector("button[type='submit']");
 const taskDueDateInput = document.querySelector("#taskDueDate");
 const statusFilterButtons = document.querySelectorAll(".status-filter-btn");
+const addTaskButton = document.querySelector("#addTaskButton");
+const addTaskCard = document.getElementById("addTaskCard");
+const taskFormTitle = addTaskCard.querySelector(".card-title");
+const addTaskTitle = "הוספת מטלה חדשה";
+const editTaskTitle = "עריכת מטלה";
+const saveButtonText = "שמירה";
+const updateButtonText = "עדכון";
 
 let tasks = [];
 let editingTaskId = null;
@@ -56,6 +63,8 @@ function resetTaskForm() {
     editingTaskId = null;
     taskForm.reset();
     submitButton.textContent = "שמירה";
+    taskFormTitle.textContent = addTaskTitle;
+    submitButton.textContent = saveButtonText;
 }
 
 function createTaskCard(task) {
@@ -237,9 +246,12 @@ tasksContainer.addEventListener("click", async function (event) {
     if (event.target.classList.contains("edit-task")) {
         editingTaskId = id;
         fillTaskForm(task);
+        taskFormTitle.textContent = editTaskTitle;
+        submitButton.textContent = updateButtonText;
         submitButton.textContent = "עדכון";
 
-        const addTaskCard = document.getElementById("addTaskCard");
+        taskFormTitle.textContent = editTaskTitle;
+        submitButton.textContent = updateButtonText;
         bootstrap.Collapse.getOrCreateInstance(addTaskCard).show();
         return;
     }
@@ -278,5 +290,13 @@ statusFilterButtons.forEach(function (button) {
         renderTasks();
     });
 });
+
+addTaskButton.addEventListener("click", function () {
+    if (!addTaskCard.classList.contains("show")) {
+        resetTaskForm();
+    }
+});
+
+addTaskCard.addEventListener("hidden.bs.collapse", resetTaskForm);
 
 loadTasks();

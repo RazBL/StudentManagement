@@ -21,7 +21,7 @@ function normalizePhone(phone) {
 }
 
 function isValidMobilePhonePattern(phone) {
-    returnmobilePhonePattern.test(normalizePhone(phone));
+    return mobilePhonePattern.test(normalizePhone(phone));
 }
 
 phoneInput.addEventListener("input", function () {
