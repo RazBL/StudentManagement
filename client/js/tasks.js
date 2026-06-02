@@ -4,7 +4,6 @@ const openTasksCount = document.querySelector("#openTasksCount");
 const submitButton = taskForm.querySelector("button[type='submit']");
 const taskDueDateInput = document.querySelector("#taskDueDate");
 const statusFilterButtons = document.querySelectorAll(".status-filter-btn");
-const taskControls = document.querySelector(".task-controls");
 
 let tasks = [];
 let editingTaskId = null;
@@ -84,10 +83,6 @@ function createTaskCard(task) {
             </div>
         </div>
     `;
-}
-
-function setupTaskControls() {
-    taskControls.appendChild(openTasksCount);
 }
 
 function getVisibleTasks() {
@@ -268,5 +263,4 @@ statusFilterButtons.forEach(function (button) {
     });
 });
 
-setupTaskControls();
 loadTasks();

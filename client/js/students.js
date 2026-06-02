@@ -84,6 +84,7 @@ function createStudentCard(student) {
 
 function getFilteredStudents() {
     const search = studentSearchInput.value.trim().toLowerCase();
+    const normalizedSearch = normalizePhone(search);
 
     if (!search) {
         return students;
@@ -92,7 +93,7 @@ function getFilteredStudents() {
     return students.filter(function (student) {
         return student.name.toLowerCase().includes(search) ||
             student.className.toLowerCase().includes(search) ||
-            student.phone.includes(search);
+            student.phone.includes(normalizedSearch);
     });
 }
 
