@@ -31,6 +31,49 @@ function getTodayDateString() {
     return formatDateString(new Date());
 }
 
+function formatDateForInput(date) {
+    const parts = date.split("-");
+
+    if (parts.length !== 3) {
+        return date;
+    }
+
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+function parseDateInput(date) {
+    const parts = date.trim().split("/");
+
+    if (parts.length !== 3) {
+        return "";
+    }
+
+    const day = parts[0].padStart(2, "0");
+    const month = parts[1].padStart(2, "0");
+    const year = parts[2];
+
+    return `${year}-${month}-${day}`;
+}
+
+function formatDateInputValue(value) {
+    const digits = value.replace(/\D/g, "").slice(0, 8);
+    const parts = [];
+
+    if (digits.length > 0) {
+        parts.push(digits.slice(0, 2));
+    }
+
+    if (digits.length > 2) {
+        parts.push(digits.slice(2, 4));
+    }
+
+    if (digits.length > 4) {
+        parts.push(digits.slice(4));
+    }
+
+    return parts.join("/");
+}
+
 function isValidFutureOrTodayDate(date) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
         return false;
@@ -49,14 +92,14 @@ function getTaskFormData() {
     return {
         title: document.querySelector("#taskTitle").value,
         className: document.querySelector("#taskClassName").value,
-        dueDate: document.querySelector("#taskDueDate").value
+        dueDate: parseDateInput(document.querySelector("#taskDueDate").value)
     };
 }
 
 function fillTaskForm(task) {
     document.querySelector("#taskTitle").value = task.title;
     document.querySelector("#taskClassName").value = task.className;
-    document.querySelector("#taskDueDate").value = task.dueDate;
+    document.querySelector("#taskDueDate").value = formatDateForInput(task.dueDate);
 }
 
 function resetTaskForm() {
@@ -279,7 +322,6 @@ tasksContainer.addEventListener("click", async function (event) {
     }
 });
 
-taskDueDateInput.min = getTodayDateString();
 statusFilterButtons.forEach(function (button) {
     button.addEventListener("click", function () {
         statusFilterButtons.forEach(function (statusButton) {
@@ -298,5 +340,9 @@ addTaskButton.addEventListener("click", function () {
 });
 
 addTaskCard.addEventListener("hidden.bs.collapse", resetTaskForm);
+
+taskDueDateInput.addEventListener("input", function () {
+    taskDueDateInput.value = formatDateInputValue(taskDueDateInput.value);
+});
 
 loadTasks();
