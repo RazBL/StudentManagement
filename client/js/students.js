@@ -113,10 +113,10 @@ function renderStudents() {
     if (visibleStudents.length === 0) {
         studentTable.innerHTML = `
             <tr>
-                <td colspan="4" class="text-muted">&#1488;&#1497;&#1503; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514; &#1500;&#1495;&#1497;&#1508;&#1493;&#1513;</td>
+                <td colspan="4" class="text-muted">אין תוצאות לחיפוש</td>
             </tr>
         `;
-        studentCards.innerHTML = `<p class="text-muted">&#1488;&#1497;&#1503; &#1514;&#1493;&#1510;&#1488;&#1493;&#1514; &#1500;&#1495;&#1497;&#1508;&#1493;&#1513;</p>`;
+        studentCards.innerHTML = `<p class="text-muted">אין תוצאות לחיפוש</p>`;
         return;
     }
 

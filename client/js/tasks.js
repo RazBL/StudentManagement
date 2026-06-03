@@ -172,7 +172,7 @@ function renderTasks() {
     }
 
     if (visibleTasks.length === 0) {
-        tasksContainer.innerHTML = `<p class="text-muted">&#1488;&#1497;&#1503; &#1502;&#1496;&#1500;&#1493;&#1514; &#1514;&#1493;&#1488;&#1502;&#1493;&#1514;</p>`;
+        tasksContainer.innerHTML = `<p class="text-muted">אין מטלות תואמות</p>`;
         return;
     }
 
